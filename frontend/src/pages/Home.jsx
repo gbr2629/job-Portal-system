@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const F = "'Instrument Sans', sans-serif";
 const S = "'Lora', Georgia, serif";
 const accents = ["#2563eb", "#0d9488", "#dc2626"];
