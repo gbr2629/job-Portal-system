@@ -4,10 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build":"npm install --prefix  backend && npm build --prefix frontend && npm run install build --prefix frontend",
-    "start":"npm run start --prefix backend"
+    "build": "npm install --prefix  backend && npm build --prefix frontend && npm run install build --prefix frontend",
+    "start": "npm run start --prefix backend"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.3.1"
+  }
 }
