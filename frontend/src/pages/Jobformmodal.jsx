@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const API_BASE = "http://localhost:5000/api/jobs";
+const API_BASE = "http://localhost:5000/jobs";
 const F = "'Instrument Sans', sans-serif";
 const S = "'Lora', Georgia, serif";
 
