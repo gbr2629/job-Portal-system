@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-const API_BASE = "https://job-portal-system-1-bd69.onrender.com/jobs";
+const API_BASE = "https://job-portal-system-ksbv.onrender.com/jobs";
 const F = "'Instrument Sans', sans-serif";
 const S = "'Lora', Georgia, serif";
 
