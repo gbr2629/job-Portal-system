@@ -261,7 +261,7 @@ export default function Jobs() {
     try {
       let url = API_BASE;
       if (q)        url = `${API_BASE}/search?title=${encodeURIComponent(q)}`;
-      else if (loc) url = `${API_BASE}/filter?location=${encodeURIComponent(loc)}`;
+      else if (loc) url = `${API_BASE}/location?location=${encodeURIComponent(loc)}`;
       const res = await fetch(url);
       if (!res.ok) throw new Error("Failed to fetch jobs");
       const data = await res.json();
