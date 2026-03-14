@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
 const RECRUITER_EMAIL = "riswalgauri@gmail.com";
+const API_BASE = "https://job-portal-system-ksbv.onrender.com/jobs";
 
 export default function Login() {
   const navigate = useNavigate();
