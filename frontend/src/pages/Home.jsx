@@ -59,8 +59,6 @@ export default function Home() {
       <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 48px", background: "#f8f6f2", borderBottom: "1px solid #e4dfd7", position: "sticky", top: 0, zIndex: 40 }}>
         <span style={{ fontFamily: S, fontSize: 17, fontWeight: 700, color: "#1a1a1a" }}>Job Portal</span>
         <div style={{ display: "flex", alignItems: "center", gap: 28, fontFamily: F }}>
-          <Link to="/jobs" style={{ color: "#6b6560", fontSize: 13.5, fontWeight: 500, textDecoration: "none" }}>Browse Jobs</Link>
-          <Link to="/users" style={{ color: "#6b6560", fontSize: 13.5, fontWeight: 500, textDecoration: "none" }}>Users</Link>
           <Link to="/login" style={{ color: "#1a1a1a", fontSize: 13.5, fontWeight: 500, textDecoration: "none", borderBottom: "1px solid #1a1a1a", paddingBottom: 1 }}>Log in</Link>
           <Link to="/register">
             <button style={{ background: "#1a1a1a", color: "#f8f6f2", border: "none", padding: "8px 20px", borderRadius: 5, fontSize: 13.5, fontWeight: 500, cursor: "pointer", fontFamily: F }}>Get started</button>

@@ -36,7 +36,7 @@ function Toast({ msg, type }) {
 }
 
 // ── Job Card ──────────────────────────────────────────────────────────────────
-function JobCard({ job, applied, onApply, onEdit, onDelete }) {
+function JobCard({ job, applied, onApply, onEdit, onDelete, isRecruiter }) {
   const fmt = (d) => d
     ? new Date(d).toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" })
     : null;
@@ -47,7 +47,6 @@ function JobCard({ job, applied, onApply, onEdit, onDelete }) {
       onMouseOver={e => e.currentTarget.style.boxShadow = "0 6px 24px rgba(0,0,0,0.08)"}
       onMouseOut={e  => e.currentTarget.style.boxShadow = "0 1px 4px rgba(0,0,0,0.04)"}
     >
-      {/* Type badge only (no Open dot) */}
       {job.type && (
         <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 12 }}>
           <span style={{ fontFamily: F, fontSize: 12, fontWeight: 500, color: "#3b82f6", background: "#eff6ff", border: "1px solid #bfdbfe", borderRadius: 6, padding: "3px 10px" }}>
@@ -56,18 +55,15 @@ function JobCard({ job, applied, onApply, onEdit, onDelete }) {
         </div>
       )}
 
-      {/* Title + Company */}
       <h3 style={{ fontFamily: S, fontSize: 17.5, fontWeight: 700, color: "#111827", margin: "0 0 3px", letterSpacing: "-0.2px" }}>{job.title}</h3>
       <p style={{ fontFamily: F, fontSize: 13, color: "#6b7280", margin: "0 0 10px" }}>{job.company}</p>
 
-      {/* Description */}
       {job.description && (
         <p style={{ fontFamily: F, fontSize: 13, color: "#6b7280", lineHeight: 1.6, margin: "0 0 12px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
           {job.description}
         </p>
       )}
 
-      {/* Salary chip */}
       {job.salary && (
         <div style={{ marginBottom: 10 }}>
           <span style={{ fontFamily: F, fontSize: 13, fontWeight: 600, color: "#16a34a", background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 6, padding: "3px 12px", display: "inline-block" }}>
@@ -76,7 +72,6 @@ function JobCard({ job, applied, onApply, onEdit, onDelete }) {
         </div>
       )}
 
-      {/* Dates */}
       {(job.createdAt || job.updatedAt) && (
         <p style={{ fontFamily: F, fontSize: 11.5, color: "#9ca3af", margin: "0 0 8px" }}>
           {job.createdAt && `Posted ${fmt(job.createdAt)}`}
@@ -85,36 +80,43 @@ function JobCard({ job, applied, onApply, onEdit, onDelete }) {
         </p>
       )}
 
-      {/* Location */}
       {job.location && (
         <p style={{ fontFamily: F, fontSize: 13, color: "#374151", margin: "0 0 16px", fontWeight: 500 }}>{job.location}</p>
       )}
 
-      {/* Buttons */}
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: "auto" }}>
-        <button onClick={() => onEdit(job)}
-          style={{ padding: "7px 18px", borderRadius: 7, border: "1px solid #e4dfd7", background: "#fff", color: "#374151", fontSize: 13, fontWeight: 500, cursor: "pointer", fontFamily: F }}
-          onMouseOver={e => e.currentTarget.style.background = "#f8f6f2"}
-          onMouseOut={e  => e.currentTarget.style.background = "#fff"}
-        >Edit</button>
-        <button onClick={() => onDelete(job)}
-          style={{ padding: "7px 18px", borderRadius: 7, border: "1px solid #fecaca", background: "#fff", color: "#dc2626", fontSize: 13, fontWeight: 500, cursor: "pointer", fontFamily: F }}
-          onMouseOver={e => e.currentTarget.style.background = "#fff5f5"}
-          onMouseOut={e  => e.currentTarget.style.background = "#fff"}
-        >Delete</button>
-        <div style={{ marginLeft: "auto" }}>
-          {applied ? (
-            <div style={{ padding: "7px 20px", borderRadius: 7, background: "#f0fdf4", border: "1px solid #bbf7d0", color: "#16a34a", fontSize: 13, fontWeight: 600, fontFamily: F }}>
-              Applied
-            </div>
-          ) : (
-            <button onClick={() => onApply(job)}
-              style={{ padding: "7px 22px", borderRadius: 7, border: "none", background: "#1a1a1a", color: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: F }}
-              onMouseOver={e => e.currentTarget.style.opacity = "0.85"}
-              onMouseOut={e  => e.currentTarget.style.opacity = "1"}
-            >Apply</button>
-          )}
-        </div>
+        {/* Edit & Delete only for Recruiter */}
+        {isRecruiter && (
+          <>
+            <button onClick={() => onEdit(job)}
+              style={{ padding: "7px 18px", borderRadius: 7, border: "1px solid #e4dfd7", background: "#fff", color: "#374151", fontSize: 13, fontWeight: 500, cursor: "pointer", fontFamily: F }}
+              onMouseOver={e => e.currentTarget.style.background = "#f8f6f2"}
+              onMouseOut={e  => e.currentTarget.style.background = "#fff"}
+            >Edit</button>
+            <button onClick={() => onDelete(job)}
+              style={{ padding: "7px 18px", borderRadius: 7, border: "1px solid #fecaca", background: "#fff", color: "#dc2626", fontSize: 13, fontWeight: 500, cursor: "pointer", fontFamily: F }}
+              onMouseOver={e => e.currentTarget.style.background = "#fff5f5"}
+              onMouseOut={e  => e.currentTarget.style.background = "#fff"}
+            >Delete</button>
+          </>
+        )}
+
+        {/* Apply only for User */}
+        {!isRecruiter && (
+          <div style={{ marginLeft: "auto" }}>
+            {applied ? (
+              <div style={{ padding: "7px 20px", borderRadius: 7, background: "#f0fdf4", border: "1px solid #bbf7d0", color: "#16a34a", fontSize: 13, fontWeight: 600, fontFamily: F }}>
+                Applied ✓
+              </div>
+            ) : (
+              <button onClick={() => onApply(job)}
+                style={{ padding: "7px 22px", borderRadius: 7, border: "none", background: "#1a1a1a", color: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: F }}
+                onMouseOver={e => e.currentTarget.style.opacity = "0.85"}
+                onMouseOut={e  => e.currentTarget.style.opacity = "1"}
+              >Apply</button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -163,8 +165,6 @@ function JobFormModal({ job, onClose, onSaved }) {
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(26,26,26,0.45)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
       <div style={{ background: "#fff", borderRadius: 14, padding: "36px 40px", width: "100%", maxWidth: 520, boxShadow: "0 24px 64px rgba(0,0,0,0.16)", border: "1px solid #e4dfd7", maxHeight: "92vh", overflowY: "auto", animation: "fadeIn 0.2s ease" }}>
-
-        {/* Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
           <div>
             <h2 style={{ fontFamily: S, fontSize: 22, fontWeight: 700, color: "#1a1a1a", margin: "0 0 4px" }}>
@@ -251,6 +251,18 @@ export default function Jobs() {
 
   const location = useLocation();
 
+  // ── Role check ──────────────────────────────────────────────────────────────
+  const role = localStorage.getItem("role");
+  const isRecruiter = role === "Recruiter";
+  const isLoggedIn = !!localStorage.getItem("token");
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("userEmail");
+    window.location.href = "/login";
+  };
+
   const showToast = (msg, type = "success") => {
     setToast({ msg, type });
     setTimeout(() => setToast(null), 2600);
@@ -313,8 +325,22 @@ export default function Jobs() {
       {/* Nav */}
       <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 48px", background: "#f8f6f2", borderBottom: "1px solid #e4dfd7", position: "sticky", top: 0, zIndex: 40 }}>
         <Link to="/" style={{ fontFamily: S, fontSize: 17, fontWeight: 700, color: "#1a1a1a", textDecoration: "none" }}>Job Portal</Link>
-        <div style={{ display: "flex", alignItems: "center", gap: 20, fontFamily: F }}>
-          <span style={{ color: "#1a1a1a", fontSize: 13.5, fontWeight: 600, borderBottom: "2px solid #1a1a1a", paddingBottom: 2 }}>Browse Jobs</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 16, fontFamily: F }}>
+          <span style={{ color: "#1a1a1a", fontSize: 13.5, fontWeight: 600, borderBottom: "2px solid #1a1a1a", paddingBottom: 2 }}>
+            {isRecruiter ? "Manage Jobs" : "Browse Jobs"}
+          </span>
+          {isLoggedIn ? (
+            <button
+              onClick={handleLogout}
+              style={{ background: "#fff", color: "#1a1a1a", border: "1px solid #e4dfd7", padding: "8px 18px", borderRadius: 6, fontSize: 13, fontWeight: 500, cursor: "pointer", fontFamily: F }}
+              onMouseOver={e => e.currentTarget.style.background = "#f8f6f2"}
+              onMouseOut={e  => e.currentTarget.style.background = "#fff"}
+            >Log out</button>
+          ) : (
+            <Link to="/login">
+              <button style={{ background: "#1a1a1a", color: "#f8f6f2", border: "none", padding: "8px 18px", borderRadius: 6, fontSize: 13, fontWeight: 500, cursor: "pointer", fontFamily: F }}>Log in</button>
+            </Link>
+          )}
           <Link to="/">
             <button style={{ display: "flex", alignItems: "center", gap: 7, background: "#1a1a1a", color: "#f8f6f2", border: "none", padding: "8px 18px", borderRadius: 6, fontSize: 13, fontWeight: 500, cursor: "pointer", fontFamily: F }}
               onMouseOver={e => e.currentTarget.style.opacity = "0.8"}
@@ -334,13 +360,19 @@ export default function Jobs() {
             <p style={{ fontFamily: F, fontSize: 11, fontWeight: 600, letterSpacing: "2px", textTransform: "uppercase", color: "#a09690", marginBottom: 7 }}>
               {loading ? "—" : `${jobs.length} open position${jobs.length !== 1 ? "s" : ""}`}
             </p>
-            <h1 style={{ fontFamily: S, fontSize: "clamp(24px, 3.5vw, 40px)", fontWeight: 700, color: "#1a1a1a", letterSpacing: "-0.8px", margin: 0 }}>Browse all jobs</h1>
+            <h1 style={{ fontFamily: S, fontSize: "clamp(24px, 3.5vw, 40px)", fontWeight: 700, color: "#1a1a1a", letterSpacing: "-0.8px", margin: 0 }}>
+              {isRecruiter ? "Manage all jobs" : "Browse all jobs"}
+            </h1>
           </div>
-          <button onClick={() => { setEditJob(null); setShowPanel(true); }}
-            style={{ background: "#1a1a1a", color: "#f8f6f2", border: "none", padding: "10px 22px", borderRadius: 7, fontSize: 13.5, fontWeight: 600, cursor: "pointer", fontFamily: F }}
-            onMouseOver={e => e.currentTarget.style.opacity = "0.85"}
-            onMouseOut={e  => e.currentTarget.style.opacity = "1"}
-          >+ Post a job</button>
+
+          {/* Post a job button — Recruiter only */}
+          {isRecruiter && (
+            <button onClick={() => { setEditJob(null); setShowPanel(true); }}
+              style={{ background: "#1a1a1a", color: "#f8f6f2", border: "none", padding: "10px 22px", borderRadius: 7, fontSize: 13.5, fontWeight: 600, cursor: "pointer", fontFamily: F }}
+              onMouseOver={e => e.currentTarget.style.opacity = "0.85"}
+              onMouseOut={e  => e.currentTarget.style.opacity = "1"}
+            >+ Post a job</button>
+          )}
         </div>
 
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
@@ -376,8 +408,10 @@ export default function Jobs() {
         {!loading && !error && jobs.length === 0 && (
           <div style={{ textAlign: "center", padding: "88px 0" }}>
             <h3 style={{ fontFamily: S, fontSize: 21, color: "#1a1a1a", marginBottom: 8 }}>No jobs found</h3>
-            <p style={{ fontFamily: F, color: "#6b6560", fontSize: 14, marginBottom: 22 }}>Try a different search, or post a new role.</p>
-            <button onClick={() => setShowPanel(true)} style={{ background: "#1a1a1a", color: "#fff", border: "none", borderRadius: 7, padding: "10px 24px", fontWeight: 600, fontSize: 14, cursor: "pointer", fontFamily: F }}>Post a job</button>
+            <p style={{ fontFamily: F, color: "#6b6560", fontSize: 14, marginBottom: 22 }}>Try a different search{isRecruiter ? ", or post a new role." : "."}</p>
+            {isRecruiter && (
+              <button onClick={() => setShowPanel(true)} style={{ background: "#1a1a1a", color: "#fff", border: "none", borderRadius: 7, padding: "10px 24px", fontWeight: 600, fontSize: 14, cursor: "pointer", fontFamily: F }}>Post a job</button>
+            )}
           </div>
         )}
 
@@ -391,20 +425,21 @@ export default function Jobs() {
                 onApply={handleApply}
                 onEdit={j  => { setEditJob(j); setShowPanel(true); }}
                 onDelete={j => setDeleteTarget(j)}
+                isRecruiter={isRecruiter}
               />
             ))}
           </div>
         )}
       </main>
 
-      {(showPanel || editJob) && (
+      {isRecruiter && (showPanel || editJob) && (
         <JobFormModal
           job={editJob || null}
           onClose={() => { setShowPanel(false); setEditJob(null); }}
           onSaved={handleSaved}
         />
       )}
-      {deleteTarget && (
+      {isRecruiter && deleteTarget && (
         <DeleteModal
           job={deleteTarget}
           onConfirm={handleDelete}
