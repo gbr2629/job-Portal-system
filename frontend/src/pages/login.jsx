@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
 const RECRUITER_EMAIL = "riswalgauri@gmail.com";
-const API_BASE = "https://job-portal-system-ksbv.onrender.com/jobs";
+const API_BASE = "https://job-portal-system-ksbv.onrender.com";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -51,7 +51,7 @@ export default function Login() {
     }
 
     try {
-      const res = await axios.post("https://job-portal-system-ksbv.onrender.com/login", form);
+      const res = await axios.post("https://job-portal-system-ksbv.onrender.com/users/login", form);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", role);
       localStorage.setItem("userEmail", form.email);
