@@ -43,7 +43,7 @@ export default function Register() {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post("https://job-portal-system-ksbv.onrender.com/register", user);
+      await axios.post("https://job-portal-system-ksbv.onrender.com/users/register", user);
       setSuccess(true);
       setUser({ fullName: "", email: "", password: "", phoneNo: "", sscMarks: "", hscMarks: "", qualification: "", location: "" });
     } catch (err) {
