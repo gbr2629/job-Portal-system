@@ -1,15 +1,15 @@
-import express from "express"
-import cors from "cors"
-import dotenv from "dotenv"
-dotenv.config()                         
-import connectDB from "./config/db.js"
-import userRoutes from "./routes/userRoutes.js"
-import jobRoutes from "./routes/jobRoutes.js"
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
+import connectDB from "./config/db.js";
 
-const app = express()
+const app = express();
 
-
-app.use(express.json())
+app.use(cors({
+  origin: 'https://job-portal-system-1-p8gz.onrender.com',
+  credentials: true
+}));
 
 connectDB()
 
